@@ -32,11 +32,10 @@ class medicalAssistant:
             if len(text) < 11:
                 tts.say("syntax error")
                 return
-
-            text = text[9:]
-            tts.say("pulling profile for %s" % text)
-            text = text.replace(" ", "")
-            print(text)
+            else:
+                text = text[9:]
+                tts.say("pulling profile for %s" % text)
+                text = text.replace(" ", "")
 
             for x in array:
                 if text in x:
@@ -45,12 +44,9 @@ class medicalAssistant:
                     tts.say("profile not in index, have you tried running \"refresh\" or checking if the filename is correct?")
                     return
 
-            print(profile)
-
             if profile.endswith('.pdf'):
                 command = "zathura profiles/" + profile
                 subprocess.run(command, shell=True)
-
             else:
                 # just in case, always use pdf files
                 command = "unoconv -f pdf profiles/" + profile
@@ -92,7 +88,16 @@ class medicalAssistant:
         elif event.type == EventType.ON_RECOGNIZING_SPEECH_FINISHED and event.args:
             print("out: ", event.args['text'])
             text = event.args['text'].lower()
+            self.checkCommand(text)
 
+        elif (event.type == EventType.ON_CONVERSATION_TURN_FINISHED or
+              event.type == EventType.ON_NO_RESPONSE or
+              event.type == EventType.ON_CONVERSATION_TURN_TIMEOUT):
+            self._led.update(Leds.rgb_on(Color.BLACK))
+            self._startConvo = True
+
+        # i dont like this part
+        def checkCommand(text):
             if text == "test":
                 self._medAssistant.stop_conversation()
                 self.helloWorld()
@@ -119,12 +124,6 @@ class medicalAssistant:
                 self._led.update(Leds.rgb_off())
                 tts.say("Goodbye")
                 exit()
-
-        elif (event.type == EventType.ON_CONVERSATION_TURN_FINISHED or
-              event.type == EventType.ON_NO_RESPONSE or
-              event.type == EventType.ON_CONVERSATION_TURN_TIMEOUT):
-            self._led.update(Leds.rgb_on(Color.BLACK))
-            self._startConvo = True
 
 
 def main():
