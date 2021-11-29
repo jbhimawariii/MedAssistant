@@ -1,5 +1,5 @@
 # MedAssistant
-The Scripts used for Jairus Group Research Project.
+The Scripts used for Jairus' Group Research Project.
 
 ## Purpose
 This program was made for the research title "Raspberry Pi based Virtual Assistant in Helping Doctors in Pulling Patient Profiles" at Pedro Guevara Memorial National Highschool in the section 9-J.BANZON Year 2021-2022
