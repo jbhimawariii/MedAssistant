@@ -112,12 +112,8 @@ class medicalAssistant:
                 self._medAssistant.stop_conversation()
                 self.helloWorld()
 
-<<<<<<< Updated upstream
-            elif "system details" == text:
-=======
             #remind me to remove this in the final release
             elif "system details" in text:
->>>>>>> Stashed changes
                 self._medAssistant.stop_conversation()
                 subprocess.run("neofetch", shell=True)
 
