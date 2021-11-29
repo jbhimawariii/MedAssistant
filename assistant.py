@@ -1,4 +1,4 @@
-# gg ez
+# note, deprecated file, using the newer version as possible
 import threading
 import subprocess
 import logging
