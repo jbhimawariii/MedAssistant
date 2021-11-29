@@ -29,6 +29,7 @@ This program runs on a modified build of the Google AIY Voice Kit V2.
 - [Zathura](https://github.com/pwmt/zathura)
 - [LibreOffice](https://github.com/LibreOffice)
 - [Unoconv](https://github.com/unoconv/unoconv)
+- [Neofetch](https://github.com/dylanaraps/neofetch)
 - [Google Assistant Library API for Python](https://github.com/googlesamples/assistant-sdk-python)
 
 This program was made in [NeoVim](https://github.com/neovim/neovim)
