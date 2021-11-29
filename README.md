@@ -14,6 +14,7 @@ This program was made for the research title "Raspberry Pi based Virtual Assista
 - Automation Functions
 - Proper LED Implementation
 - Implement X display
+- Fix the 500 API call limit
 
 ## Credits
 
