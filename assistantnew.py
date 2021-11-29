@@ -7,8 +7,8 @@ from google.assistant.library.event import EventType
 
 from aiy.voice import tts 
 from aiy.assistant import auth_helpers
-from aiy.board import Board, Led
-from aiy.leds import Color, Leds, Pattern
+from aiy.board import Board
+from aiy.leds import Color, Leds
 from os import listdir
 from os.path import isfile, join
 from aiy.assistant.library import Assistant
@@ -25,13 +25,14 @@ class medicalAssistant:
     def startAssistant(self):
         self._task.start()
 
-    def helloWorld(self):
-        # test
-        tts.say("hello world")
-
     def getProfile(self, text):
         with open('index', 'r') as index:
             array = index.readlines()
+
+            if len(text) < 11:
+                tts.say("syntax error")
+                return
+
             text = text[9:]
             tts.say("pulling profile for %s" % text)
             text = text.replace(" ", "")
@@ -40,6 +41,9 @@ class medicalAssistant:
             for x in array:
                 if text in x:
                     profile = x
+                else:
+                    tts.say("profile not in index, have you tried running \"refresh\" or checking if the filename is correct?")
+                    return
 
             print(profile)
 
@@ -49,7 +53,6 @@ class medicalAssistant:
 
             else:
                 # just in case, always use pdf files
-                #command = "libreoffice --headless --convert-to pdf --outdir profiles/ "  + file
                 command = "unoconv -f pdf profiles/" + profile
                 subprocess.run(command, shell=True, capture_output=True)
                 command = "zathura profiles/" + profile
@@ -85,21 +88,17 @@ class medicalAssistant:
             self._startConvo = False
             self._led.update(Leds.rgb_on(Color.GREEN))
 
-        # process commands 
+        # process commands
         elif event.type == EventType.ON_RECOGNIZING_SPEECH_FINISHED and event.args:
             print("out: ", event.args['text'])
             text = event.args['text'].lower()
+
             if text == "test":
                 self._medAssistant.stop_conversation()
                 self.helloWorld()
 
-            elif "execute order 66" in text:
-                self._medAssistant.stop_conversation()
-                tts.say("suck on these nuts")
-
             elif "system details" in text:
                 self._medAssistant.stop_conversation()
-                tts.say("Okay you ricing addict")
                 subprocess.run("neofetch", shell=True)
 
             elif "shutdown system" in text:
