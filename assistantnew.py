@@ -102,11 +102,11 @@ class medicalAssistant:
                 self._medAssistant.stop_conversation()
                 self.helloWorld()
 
-            elif "system details" in text:
+            elif "system details" == text:
                 self._medAssistant.stop_conversation()
                 subprocess.run("neofetch", shell=True)
 
-            elif "shutdown system" in text:
+            elif "shutdown system" == text:
                 self._medAssistant.stop_conversation()
                 tts.say("Now Shutting Down")
                 subprocess.run("sudo shutdown now", shell=True)
