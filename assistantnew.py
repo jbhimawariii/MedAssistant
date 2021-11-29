@@ -107,11 +107,6 @@ class medicalAssistant:
                 tts.say("Now Shutting Down")
                 subprocess.run("sudo shutdown now", shell=True)
 
-            elif "brick system" in text:
-                self._medAssistant.stop_conversation()
-                tts.say("Now running super user do r m dash r f on root directory")
-                subprocess.run("sudo shutdown now", shell=True)
-
             elif "file get" in text:
                 self._medAssistant.stop_conversation()
                 self.getProfile(text)
