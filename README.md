@@ -5,11 +5,12 @@ The Scripts used for Jairus' Group Research Project.
 This program was made for the research title "Raspberry Pi based Virtual Assistant in Helping Doctors in Pulling Patient Profiles" at Pedro Guevara Memorial National Highschool in the section 9-J.BANZON Year 2021-2022
 
 ## Credits
-**Kalinaw Lukas Aom Conde-Bebis**
+
+[**Kalinaw Lukas Aom Conde-Bebis / krlm0**](https://github.com/krlm0)
  - Lead Programmer
  - Co-Manager
 
-**Jairus Azarael C. Bona**
+[**Jairus Azarael C. Bona / JairusBGit**](https://github.com/JairusBGit)
  - Co-Programmer
  - Lead Debugger
  - Co-Documentor
