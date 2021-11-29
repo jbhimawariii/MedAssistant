@@ -36,5 +36,8 @@ This program was made in [NeoVim](https://github.com/neovim/neovim)
 
 This program runs on the Raspbian OS based on Debian Linux
 
+## Installation
+[WIP]
+
 ## License
 This Program is licensed under the [Apache v2 License](http://www.apache.org/licenses)
