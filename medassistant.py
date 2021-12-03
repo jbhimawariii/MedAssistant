@@ -1,12 +1,16 @@
-# a test of sanity
+# i still need to add styles
+
 import threading
 import subprocess
 import logging
+import sys
+import tkinter as tk
+from tkinter import ttk
 
 from google.assistant.library.event import EventType
 
-# This is a deprecated library but Google doesn't even give us any other APIs. 
-from aiy.voice import tts 
+# This is a deprecated library but Google doesn't even give us any other APIs.
+from aiy.voice import tts
 from aiy.assistant import auth_helpers
 from aiy.board import Board
 from aiy.leds import Color, Leds
@@ -14,7 +18,8 @@ from os import listdir
 from os.path import isfile, join
 from aiy.assistant.library import Assistant
 
-#The class implementation could be better. But this isnt being sold so i dont care.
+
+# The class implementation could be better. But this isnt being sold so i dont care.
 class medicalAssistant:
     def __init__(self):
         self._task = threading.Thread(target=self.runTask)
@@ -43,10 +48,11 @@ class medicalAssistant:
                 if text in x:
                     profile = x
                 else:
-                    tts.say("profile not in index, have you tried running \"refresh\" or checking if the filename is correct?")
+                    tts.say("""profile not in index, have you tried running \"refresh\"
+                            or checking if the filename is correct?""")
                     return
 
-            if profile.endswith('.pdf'):
+            if profile.endswith(".pdf"):
                 command = "zathura profiles/" + profile
                 subprocess.run(command, shell=True)
             else:
@@ -65,19 +71,18 @@ class medicalAssistant:
 
         tts.say("refresh finished")
 
-# STOP MAKING SO MANY ASSISTANT AUTH CALLS PLEASSSEEEE
     def runTask(self):
-        credentials = auth_helpers.get_assistant_credentials() # get credentials, self explanatory
+        credentials = auth_helpers.get_assistant_credentials()  # get credentials, self explanatory
         with Assistant(credentials) as assistant:
             self._medAssistant = assistant
             for event in assistant.start():
                 self.checkEvent(event)
 
-# implement a "button press = shut up" feature pls
     def buttonPressed(self):
         if self._startConvo: 
             self._medAssistant.start_conversation()
 
+    # There's some sort of part here that doesn't work on newer versions of the library, too bad!
     def checkEvent(self, event):
         logging.info(event)
         if event.type == EventType.ON_START_FINISHED:
@@ -89,7 +94,6 @@ class medicalAssistant:
             self._led.update(Leds.rgb_on(Color.GREEN))
 
         # process commands
-        # need to fix this
         # "Leds.rgb_on(Color.BLACK)) needs to be changed. I could use a better function.
         elif event.type == EventType.ON_RECOGNIZING_SPEECH_FINISHED and event.args:
             print("out: ", event.args['text'])
@@ -103,16 +107,14 @@ class medicalAssistant:
             self._startConvo = True
 
         # i dont like this part
-        # we need to clean this code
-        # IS THERE ANY WAY WE CAN USE SOMETHING CLEANER THAN AN ELIF???
-        #
-        # remind me to remove the helloWorld functions in the final release
+        # can i use match cases
         def checkCommand(text):
+            # TODO remove
             if text == "test":
                 self._medAssistant.stop_conversation()
                 self.helloWorld()
 
-            #remind me to remove this in the final release
+            # TODO remove
             elif "system details" in text:
                 self._medAssistant.stop_conversation()
                 subprocess.run("neofetch", shell=True)
@@ -123,26 +125,57 @@ class medicalAssistant:
                 subprocess.run("sudo shutdown now", shell=True)
 
             elif "file get" in text:
-                self._medAssistant.stop_conversation()
                 self.getProfile(text)
 
-            #we need to implement this into the GUI
             elif text == "refresh":
                 self._medAssistant.stop_conversation()
                 self.refreshIndex()
-            
-            #need to fix the exit() function since it doesn't really exit the script.
+
             elif text == "goodbye":
                 self._medAssistant.stop_conversation()
                 self._led.update(Leds.rgb_off())
                 tts.say("Goodbye")
-                exit()
+                sys.exit(0)
+
+            def textInput(self, input):
+                if self._startConvo:
+                    self._medAssistant.send_text_query(input)
+
+
+# half-baked gui, god i hope it works
+class medGui:
+    def __init__(self):  # uhhhhhhhhhh
+        self._root = tk.Tk()
+        self._root.title = "Medical Assistant"
+        self._topFrame = ttk.Frame(self._root, padding="10, 10, 12, 12")
+        self._assistant = medicalAssistant()
+        self._input = tk.StringVar()
+
+    def makeWidgets(self):
+        # i don't really have a need for this function except cleanliness
+        ttk.Label(self._topFrame, text="Medical Assistant").grid(column=1, row=1, sticky=(tk.W, tk.E))
+        ttk.Button(self._topFrame, text="Activate", command=self._assistant.buttonPressed()).grid(column=1, row=2, sticky=(tk.W))
+        ttk.Button(self._topFrame, text="Refresh", command=self._assistant.refreshIndex()).grid(column=1, row=3, sticky=(tk.W))
+
+        input = ttk.Entry(self._topFrame, width=10).grid(column=1, row=4, sticky=(tk.W))
+        input.focus()
+        self._root.bind("<Return>",
+                        lambda event, var = input:
+                            self._assistant.textInput(var))
+    
+    # TODO add style
+
+    def start(self):
+        self.makeWidgets()
+        medicalAssistant.startAssistant()
+        self._root.mainloop()
 
 
 def main():
     logging.basicConfig(level=logging.INFO)
-    assist = medicalAssistant()
-    assist.startAssistant()
+    gui = medGui()
+    gui.start()
+
 
 if __name__ == "__main__":
     main()
