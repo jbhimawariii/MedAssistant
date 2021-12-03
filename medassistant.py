@@ -167,7 +167,7 @@ class medGui:
 
     def start(self):
         self.makeWidgets()
-        medicalAssistant.startAssistant()
+        self._assistant.startAssistant()
         self._root.mainloop()
 
 
