@@ -1,6 +1,8 @@
 # gui version of the assistant
 highly experimental, this will soon be the main branch
 
+probably won't even work 
+
 ## Open Source Programs Used
 - [Python 3.7](https://www.python.org/)
 - [Zathura](https://github.com/pwmt/zathura)
