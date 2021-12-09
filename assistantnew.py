@@ -82,7 +82,7 @@ class medicalAssistant:
     def checkEvent(self, event):
         logging.info(event)
         if event.type == EventType.ON_START_FINISHED:
-            self._led.update(Leds.rgb_on(Color.BLACK))
+            self._led.update(Leds.rgb_off())
             self._startConvo = True
 
         elif event.type == EventType.ON_CONVERSATION_TURN_STARTED:
@@ -100,7 +100,7 @@ class medicalAssistant:
         elif (event.type == EventType.ON_CONVERSATION_TURN_FINISHED or
               event.type == EventType.ON_NO_RESPONSE or
               event.type == EventType.ON_CONVERSATION_TURN_TIMEOUT):
-            self._led.update(Leds.rgb_on(Color.BLACK))
+            self._led.update(Leds.rgb_off())
             self._startConvo = True
 
     # i dont like this part
