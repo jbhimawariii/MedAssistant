@@ -106,35 +106,35 @@ class medicalAssistant:
             self._led.update(Leds.rgb_on(Color.BLACK))
             self._startConvo = True
 
-        # i dont like this part
-        # can i use match cases
-        def checkCommand(text):
-            # TODO remove
-            if text == "test":
-                self._medAssistant.stop_conversation()
-                self.helloWorld()
+    # i dont like this part
+    # can i use match cases
+    def checkCommand(self, text):
+        # TODO remove
+        if text == "test":
+            self._medAssistant.stop_conversation()
+            self.helloWorld()
 
-            elif "shutdown system" == text:
-                self._medAssistant.stop_conversation()
-                tts.say("Now Shutting Down")
-                subprocess.run("sudo shutdown now", shell=True)
+        elif "shutdown system" == text:
+            self._medAssistant.stop_conversation()
+            tts.say("Now Shutting Down")
+            subprocess.run("sudo shutdown now", shell=True)
 
-            elif "file get" in text:
-                self.getProfile(text)
+        elif "file get" in text:
+            self.getProfile(text)
 
-            elif text == "refresh":
-                self._medAssistant.stop_conversation()
-                self.refreshIndex()
+        elif text == "refresh":
+            self._medAssistant.stop_conversation()
+            self.refreshIndex()
 
-            elif text == "goodbye":
-                self._medAssistant.stop_conversation()
-                self._led.update(Leds.rgb_off())
-                tts.say("Goodbye")
-                sys.exit(0)
+        elif text == "goodbye":
+            self._medAssistant.stop_conversation()
+            self._led.update(Leds.rgb_off())
+            tts.say("Goodbye")
+            sys.exit(0)
 
-            def textInput(self, input):
-                if self._startConvo:
-                    self._medAssistant.send_text_query(input)
+    def textInput(self, input):
+        if self._startConvo:
+            self._medAssistant.send_text_query(input)
 
 
 # half-baked gui, god i hope it works
