@@ -1,8 +1,8 @@
 # MedAssistant
 The Scripts used for Jairus' Group Research Project.
 
-Version 0.5.0 beta
-Codename: Reimu
+Version 0.5.1 beta
+Codename: PC-98 Reimu
 
 ## Purpose
 This program was made for the research title "Raspberry Pi based Virtual Assistant in Helping Doctors in Pulling Patient Profiles" at Pedro Guevara Memorial National Highschool in the section 9-J.BANZON Year 2021-2022
@@ -49,7 +49,13 @@ This program was made in [NeoVim](https://github.com/neovim/neovim)
 This program runs on the Raspbian OS based on Debian Linux
 
 ## Installation
-[WIP]
+Step 1: Install the [AIY Voice Kit](https://github.com/google/aiyprojects-raspbian/releases) Debian package
+Step 2: Authorize your kit by following instructions [here](https://aiyprojects.withgoogle.com/voice/#assembly-guide)
+  * Note: The OAuth credentials may expire so if you encounter that bug, run `rm -rf ~/.cache/voice-recognizer` and then re-run the authorization steps.
+Step 3: Install the dependencies with `sudo apt-get install python3 zathura libreoffice unoconv`
+Step 4: Install your documentations in the profiles directory with the patient name as the filename.
+  * Note: Adding new patient profiles requires the use of the voice command `OK Google, "Refresh"`
+Step 5: Run the Python script and enjoy.
 
 ## License
 This Program is licensed under the [Apache v2 License](http://www.apache.org/licenses)
