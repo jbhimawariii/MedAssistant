@@ -50,11 +50,15 @@ This program runs on the Raspbian OS based on Debian Linux
 
 ## Installation
 Step 1: Install the [AIY Voice Kit](https://github.com/google/aiyprojects-raspbian/releases) Debian package
+
 Step 2: Authorize your kit by following instructions [here](https://aiyprojects.withgoogle.com/voice/#assembly-guide)
   * Note: The OAuth credentials may expire so if you encounter that bug, run `rm -rf ~/.cache/voice-recognizer` and then re-run the authorization steps.
+
 Step 3: Install the dependencies with `sudo apt-get install python3 zathura libreoffice unoconv`
+
 Step 4: Install your documentations in the profiles directory with the patient name as the filename.
   * Note: Adding new patient profiles requires the use of the voice command `OK Google, "Refresh"`
+
 Step 5: Run the Python script and enjoy.
 
 ## License
