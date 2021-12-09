@@ -60,6 +60,8 @@ Step 4: Install your documentations in the profiles directory with the patient n
   * Note: Adding new patient profiles requires the use of the voice command `OK Google, "Refresh"`
 
 Step 5: Run the Python script and enjoy.
+  * Note: This program only properly runs on Python 3.7 with ***VERSION 1.0 OF THE GOOGLE ASSISTANT API***
+  * *our coder has not ported the commands over to the latest version of Python and the Google Assistant API* 
 
 ## License
 This Program is licensed under the [Apache v2 License](http://www.apache.org/licenses)
