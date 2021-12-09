@@ -19,7 +19,7 @@ from os.path import isfile, join
 from aiy.assistant.library import Assistant
 
 
-# The class implementation could be better. But this isnt being sold so i dont care.
+# The class implementation could be somewhat better..
 class medicalAssistant:
     def __init__(self):
         self._task = threading.Thread(target=self.runTask)
@@ -79,7 +79,7 @@ class medicalAssistant:
                 self.checkEvent(event)
 
     def buttonPressed(self):
-        if self._startConvo: 
+        if self._startConvo:
             self._medAssistant.start_conversation()
 
     # There's some sort of part here that doesn't work on newer versions of the library, too bad!
@@ -94,7 +94,7 @@ class medicalAssistant:
             self._led.update(Leds.rgb_on(Color.GREEN))
 
         # process commands
-        # "Leds.rgb_on(Color.BLACK)) needs to be changed. I could use a better function.
+        # Leds.rgb_on(Color.BLACK)) needs to be changed. I could use a better function.
         elif event.type == EventType.ON_RECOGNIZING_SPEECH_FINISHED and event.args:
             print("out: ", event.args['text'])
             text = event.args['text'].lower()
@@ -113,11 +113,6 @@ class medicalAssistant:
             if text == "test":
                 self._medAssistant.stop_conversation()
                 self.helloWorld()
-
-            # TODO remove
-            elif "system details" in text:
-                self._medAssistant.stop_conversation()
-                subprocess.run("neofetch", shell=True)
 
             elif "shutdown system" == text:
                 self._medAssistant.stop_conversation()
@@ -153,6 +148,7 @@ class medGui:
 
     def makeWidgets(self):
         # i don't really have a need for this function except cleanliness
+        heading_font = ("Arial", 20)
         ttk.Label(self._topFrame, text="Medical Assistant").grid(column=1, row=1, sticky=(tk.W, tk.E))
         ttk.Button(self._topFrame, text="Activate", command=self._assistant.buttonPressed()).grid(column=1, row=2, sticky=(tk.W))
         ttk.Button(self._topFrame, text="Refresh", command=self._assistant.refreshIndex()).grid(column=1, row=3, sticky=(tk.W))
@@ -160,10 +156,8 @@ class medGui:
         input = ttk.Entry(self._topFrame, width=10).grid(column=1, row=4, sticky=(tk.W))
         input.focus()
         self._root.bind("<Return>",
-                        lambda event, var = input:
+                        lambda event, var=input:
                             self._assistant.textInput(var))
-    
-    # TODO add style
 
     def start(self):
         self.makeWidgets()
