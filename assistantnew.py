@@ -5,8 +5,8 @@ import logging
 
 from google.assistant.library.event import EventType
 
-# This is a deprecated library but Google doesn't even give us any other APIs. 
-from aiy.voice import tts 
+# This is a deprecated library but Google doesn't even give us any other APIs.
+from aiy.voice import tts
 from aiy.assistant import auth_helpers
 from aiy.board import Board
 from aiy.leds import Color, Leds
@@ -14,7 +14,8 @@ from os import listdir
 from os.path import isfile, join
 from aiy.assistant.library import Assistant
 
-#The class implementation could be better. But this isnt being sold so i dont care.
+
+# The class implementation could be better. But this isnt being sold so i dont care.
 class medicalAssistant:
     def __init__(self):
         self._task = threading.Thread(target=self.runTask)
@@ -67,7 +68,7 @@ class medicalAssistant:
 
 # STOP MAKING SO MANY ASSISTANT AUTH CALLS PLEASSSEEEE
     def runTask(self):
-        credentials = auth_helpers.get_assistant_credentials() # get credentials, self explanatory
+        credentials = auth_helpers.get_assistant_credentials()  # get credentials, self explanatory
         with Assistant(credentials) as assistant:
             self._medAssistant = assistant
             for event in assistant.start():
@@ -75,7 +76,7 @@ class medicalAssistant:
 
 # implement a "button press = shut up" feature pls
     def buttonPressed(self):
-        if self._startConvo: 
+        if self._startConvo:
             self._medAssistant.start_conversation()
 
     def checkEvent(self, event):
@@ -102,47 +103,48 @@ class medicalAssistant:
             self._led.update(Leds.rgb_on(Color.BLACK))
             self._startConvo = True
 
-        # i dont like this part
-        # we need to clean this code
-        # IS THERE ANY WAY WE CAN USE SOMETHING CLEANER THAN AN ELIF???
-        #
-        # remind me to remove the helloWorld functions in the final release
-        def checkCommand(text):
-            if text == "test":
-                self._medAssistant.stop_conversation()
-                self.helloWorld()
+    # i dont like this part
+    # we need to clean this code
+    # IS THERE ANY WAY WE CAN USE SOMETHING CLEANER THAN AN ELIF???
+    #
+    # remind me to remove the helloWorld functions in the final release
+    def checkCommand(self, text):
+        if text == "test":
+            self._medAssistant.stop_conversation()
+            self.helloWorld()
 
-            #remind me to remove this in the final release
-            elif "system details" in text:
-                self._medAssistant.stop_conversation()
-                subprocess.run("neofetch", shell=True)
+        # remind me to remove this in the final release
+        elif "system details" in text:
+            self._medAssistant.stop_conversation()
+            subprocess.run("neofetch", shell=True)
 
-            elif "shutdown system" == text:
-                self._medAssistant.stop_conversation()
-                tts.say("Now Shutting Down")
-                subprocess.run("sudo shutdown now", shell=True)
+        elif "shutdown system" == text:
+            self._medAssistant.stop_conversation()
+            tts.say("Now Shutting Down")
+            subprocess.run("sudo shutdown now", shell=True)
 
-            elif "file get" in text:
-                self._medAssistant.stop_conversation()
-                self.getProfile(text)
+        elif "file get" in text:
+            self._medAssistant.stop_conversation()
+            self.getProfile(text)
 
-            #we need to implement this into the GUI
-            elif text == "refresh":
-                self._medAssistant.stop_conversation()
-                self.refreshIndex()
-            
-            #need to fix the exit() function since it doesn't really exit the script.
-            elif text == "goodbye":
-                self._medAssistant.stop_conversation()
-                self._led.update(Leds.rgb_off())
-                tts.say("Goodbye")
-                exit()
+        # we need to implement this into the GUI
+        elif text == "refresh":
+            self._medAssistant.stop_conversation()
+            self.refreshIndex()
+
+        # need to fix the exit() function since it doesn't really exit the script.
+        elif text == "goodbye":
+            self._medAssistant.stop_conversation()
+            self._led.update(Leds.rgb_off())
+            tts.say("Goodbye")
+            exit()
 
 
 def main():
     logging.basicConfig(level=logging.INFO)
     assist = medicalAssistant()
     assist.startAssistant()
+
 
 if __name__ == "__main__":
     main()
