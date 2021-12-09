@@ -109,7 +109,7 @@ class medicalAssistant:
     #
     # remind me to remove the helloWorld functions in the final release
     def checkCommand(self, text):
-        if text == "test":
+        if text == "say hello":
             self._medAssistant.stop_conversation()
             self.helloWorld()
 
@@ -123,7 +123,7 @@ class medicalAssistant:
             tts.say("Now Shutting Down")
             subprocess.run("sudo shutdown now", shell=True)
 
-        elif "file get" in text:
+        elif "patient get" in text:
             self._medAssistant.stop_conversation()
             self.getProfile(text)
 
