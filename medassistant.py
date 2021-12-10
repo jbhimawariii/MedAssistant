@@ -5,6 +5,7 @@ import subprocess
 import logging
 import sys
 import tkinter as tk
+import pyglet
 from tkinter import ttk
 
 from google.assistant.library.event import EventType
@@ -137,31 +138,72 @@ class medicalAssistant:
             self._medAssistant.send_text_query(input)
 
 
-# half-baked gui, god i hope it works
 class medGui:
-    def __init__(self):  # uhhhhhhhhhh
+    def __init__(self):  # ABSOLUTE TRASH
         self._root = tk.Tk()
-        self._root.title = "Medical Assistant"
-        self._topFrame = ttk.Frame(self._root, padding="10, 10, 12, 12")
+        self._root.title = "MedAssistant"
+        self._root.geometry("400x450")
+        self._root.resizable(False, False)
+        self._root.configure(background="#141316")
+
+        self._topFrame = ttk.Frame(self._root, padding="20 20 22 22", width=350, height=400)
+        self._topFrame.pack()
+        self._topFrame.pack_propagate(False)
+        self._topFrame.place(relx=.5, rely=.5, anchor="center")
+
+        pyglet.font.add_file("assets/Lato-Regular.ttf")
+        self._icon = tk.PhotoImage(file="assets/githubicon.png")
+
         self._assistant = medicalAssistant()
         self._input = tk.StringVar()
 
-    def makeWidgets(self):
-        # i don't really have a need for this function except cleanliness
-        heading_font = ("Arial", 20)
-        ttk.Label(self._topFrame, text="Medical Assistant").grid(column=1, row=1, sticky=(tk.W, tk.E))
-        ttk.Button(self._topFrame, text="Activate", command=self._assistant.buttonPressed()).grid(column=1, row=2, sticky=(tk.W))
-        ttk.Button(self._topFrame, text="Refresh", command=self._assistant.refreshIndex()).grid(column=1, row=3, sticky=(tk.W))
+    def openCredits(self):
+        # TODO i would improve this function rn but its 1 am
+        subprocess.run("chromium https://github.com/JairusBGit/MedAssistant")
 
-        input = ttk.Entry(self._topFrame, width=10).grid(column=1, row=4, sticky=(tk.W))
+    # bruh
+    def addStyle(self):
+        teststyle = ttk.Style()
+
+        teststyle.configure("TFrame", background="#1b1c1f")
+        teststyle.configure("TButton", font=("Lato", 18), borderwidth=0, background="#1b1c1f",
+                            foreground="#c9c2bd", activeforeground="#ffffff",
+                            activebackground="#1b1c1f")
+        teststyle.configure("TSeparator", background="#ffffff")
+        teststyle.configure("header.TLabel", font=("Lato", 24), background="#1b1c1f",
+                            foreground="#c9c2bd")
+        teststyle.configure("normal.TLabel", font=("Lato", 10), background="#1b1c1f",
+                            foreground="#c9c2bd")
+        teststyle.configure("TEntry", borderwidth=0, fieldbackground="#1b1c1f", foreground="#c9c2bd",
+                            relief="flat", justify="center")
+
+    # note to self, avoid writing gui programs
+    def makeWidgets(self):
+        ttk.Label(self._topFrame, text="MedAssistant", style="header.TLabel").pack(side=tk.TOP,
+                                                                                   anchor=tk.NW)
+        ttk.Separator(self._topFrame, orient=tk.VERTICAL).pack(side=tk.LEFT, fill="y",
+                                                               padx=20)
+        # AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        ttk.Button(self._topFrame, text="Activate", command=self._assistant.buttonPressed()).place(x=40, y=100)
+        ttk.Button(self._topFrame, text="Refresh", command=self._assistant.refreshIndex()).place(x=40, y=200)
+
+        input = ttk.Entry(self._topFrame, width=10, font=("Lato", 16))  # workaround
+        input.place(x=60, y=300)
+        input.delete(0, tk.END)
+        input.insert(0, "Manual Input")
         input.focus()
+
         self._root.bind("<Return>",
                         lambda event, var=input:
                             self._assistant.textInput(var))
 
+        ttk.Label(self._topFrame, text="Ver 0.9.1", style="normal.TLabel").place(x=240, y=360)
+
+        ttk.Button(self._topFrame, image=self._icon, command=self.openCredits()).place(x=300, y=350)
+
     def start(self):
+        self.addStyle()
         self.makeWidgets()
-        self._assistant.startAssistant()
         self._root.mainloop()
 
 
