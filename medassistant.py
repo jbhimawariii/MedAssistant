@@ -1,5 +1,3 @@
-# i still need to add styles
-
 import threading
 import subprocess
 import logging
@@ -87,7 +85,7 @@ class medicalAssistant:
     def checkEvent(self, event):
         logging.info(event)
         if event.type == EventType.ON_START_FINISHED:
-            self._led.update(Leds.rgb_on(Color.BLACK))
+            self._led.update(Leds.rgb_off())
             self._startConvo = True
 
         elif event.type == EventType.ON_CONVERSATION_TURN_STARTED:
@@ -95,7 +93,6 @@ class medicalAssistant:
             self._led.update(Leds.rgb_on(Color.GREEN))
 
         # process commands
-        # Leds.rgb_on(Color.BLACK)) needs to be changed. I could use a better function.
         elif event.type == EventType.ON_RECOGNIZING_SPEECH_FINISHED and event.args:
             print("out: ", event.args['text'])
             text = event.args['text'].lower()
@@ -104,23 +101,23 @@ class medicalAssistant:
         elif (event.type == EventType.ON_CONVERSATION_TURN_FINISHED or
               event.type == EventType.ON_NO_RESPONSE or
               event.type == EventType.ON_CONVERSATION_TURN_TIMEOUT):
-            self._led.update(Leds.rgb_on(Color.BLACK))
+            self._led.update(Leds.rgb_off())
             self._startConvo = True
 
     # i dont like this part
     # can i use match cases
     def checkCommand(self, text):
         # TODO remove
-        if text == "test":
+        if text == "say hello":
             self._medAssistant.stop_conversation()
             self.helloWorld()
 
-        elif "shutdown system" == text:
+        elif text == "shutdown system":
             self._medAssistant.stop_conversation()
             tts.say("Now Shutting Down")
             subprocess.run("sudo shutdown now", shell=True)
 
-        elif "file get" in text:
+        elif "patient get" in text:
             self.getProfile(text)
 
         elif text == "refresh":
@@ -202,6 +199,7 @@ class medGui:
         ttk.Button(self._topFrame, image=self._icon, command=self.openCredits()).place(x=300, y=350)
 
     def start(self):
+        self._assistant.startAssistant()
         self.addStyle()
         self.makeWidgets()
         self._root.mainloop()
