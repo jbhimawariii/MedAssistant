@@ -164,6 +164,8 @@ class medGui:
         # apparently the fix was removing the window title
         # huh.
         name = sd.askstring("Input Name", "Enter Patient's name")
+        if name is None:  # if no input has been made
+            return
 
         # format name
         name = name.lower()
@@ -171,6 +173,7 @@ class medGui:
         name = "profiles/" + name + ".pdf"
 
         copyfile(filename, name)
+        self._assistant.refreshIndex()
 
     # bruh
     def addStyle(self):
