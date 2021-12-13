@@ -3,12 +3,13 @@ import subprocess
 import logging
 import sys
 import tkinter as tk
-import pyglet
+import tkinter.simpledialog as sd
+import tkinter.filedialog as filedialog
 from tkinter import ttk
+from shutil import copyfile
 
 from google.assistant.library.event import EventType
 
-# This is a deprecated library but Google doesn't even give us any other APIs.
 from aiy.voice import tts
 from aiy.assistant import auth_helpers
 from aiy.board import Board
@@ -135,10 +136,10 @@ class medicalAssistant:
             self._medAssistant.send_text_query(input)
 
 
+# huh.
 class medGui:
-    def __init__(self):  # ABSOLUTE TRASH
+    def __init__(self):
         self._root = tk.Tk()
-        self._root.title = "MedAssistant"
         self._root.geometry("400x450")
         self._root.resizable(False, False)
         self._root.configure(background="#141316")
@@ -148,15 +149,28 @@ class medGui:
         self._topFrame.pack_propagate(False)
         self._topFrame.place(relx=.5, rely=.5, anchor="center")
 
-        pyglet.font.add_file("assets/Lato-Regular.ttf")
         self._icon = tk.PhotoImage(file="assets/githubicon.png")
 
         self._assistant = medicalAssistant()
         self._input = tk.StringVar()
 
     def openCredits(self):
-        # TODO i would improve this function rn but its 1 am
-        subprocess.run("chromium https://github.com/JairusBGit/MedAssistant")
+        # TODO improvements
+        subprocess.run("chromium https://github.com/JairusBGit/MedAssistant", shell=True)
+
+    def addProfile(self):
+        filename = filedialog.askopenfilename()
+        # did you know that i have spent 3 hours on this thing because of some bug i cant find?
+        # apparently the fix was removing the window title
+        # huh.
+        name = sd.askstring("Input Name", "Enter Patient's name")
+
+        # format name
+        name = name.lower()
+        name = name.replace(" ", "")
+        name = "profiles/" + name + ".pdf"
+
+        copyfile(filename, name)
 
     # bruh
     def addStyle(self):
@@ -181,8 +195,9 @@ class medGui:
         ttk.Separator(self._topFrame, orient=tk.VERTICAL).pack(side=tk.LEFT, fill="y",
                                                                padx=20)
         # AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        ttk.Button(self._topFrame, text="Activate", command=self._assistant.buttonPressed()).place(x=40, y=100)
-        ttk.Button(self._topFrame, text="Refresh", command=self._assistant.refreshIndex()).place(x=40, y=200)
+        ttk.Button(self._topFrame, text="Activate", command=self._assistant.buttonPressed).place(x=40, y=100)
+        ttk.Button(self._topFrame, text="+", command=self.addProfile).place(x=120, y=200)
+        ttk.Button(self._topFrame, text="Refresh", command=self._assistant.refreshIndex).place(x=40, y=200)
 
         input = ttk.Entry(self._topFrame, width=10, font=("Lato", 16))  # workaround
         input.place(x=60, y=300)
@@ -194,9 +209,9 @@ class medGui:
                         lambda event, var=input:
                             self._assistant.textInput(var))
 
-        ttk.Label(self._topFrame, text="Ver 0.9.1", style="normal.TLabel").place(x=240, y=360)
+        ttk.Label(self._topFrame, text="Ver 0.9.3", style="normal.TLabel").place(x=240, y=360)
 
-        ttk.Button(self._topFrame, image=self._icon, command=self.openCredits()).place(x=300, y=350)
+        ttk.Button(self._topFrame, image=self._icon, command=self.openCredits).place(x=300, y=350)
 
     def start(self):
         self._assistant.startAssistant()
