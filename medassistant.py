@@ -175,6 +175,13 @@ class medGui:
         copyfile(filename, name)
         self._assistant.refreshIndex()
 
+    def textCommand(self):
+        command = sd.askstring("Input Command", "Enter Command")
+        if command is None:
+            return
+        else:
+            self._assistant.textInput(command)
+
     # bruh
     def addStyle(self):
         teststyle = ttk.Style()
@@ -201,18 +208,13 @@ class medGui:
         ttk.Button(self._topFrame, text="Activate", command=self._assistant.buttonPressed).place(x=40, y=100)
         ttk.Button(self._topFrame, text="+", command=self.addProfile).place(x=120, y=200)
         ttk.Button(self._topFrame, text="Refresh", command=self._assistant.refreshIndex).place(x=40, y=200)
-
-        input = ttk.Entry(self._topFrame, width=10, font=("Lato", 16))  # workaround
-        input.place(x=60, y=300)
-        input.delete(0, tk.END)
-        input.insert(0, "Manual Input")
-        input.focus()
+        ttk.Button(self._topFrame, text="Manual Input", command=self.textCommand).place(x=60, y=300)
 
         self._root.bind("<Return>",
                         lambda event, var=input:
                             self._assistant.textInput(var))
 
-        ttk.Label(self._topFrame, text="Ver 0.9.3", style="normal.TLabel").place(x=240, y=360)
+        ttk.Label(self._topFrame, text="Ver 0.9.4", style="normal.TLabel").place(x=240, y=360)
 
         ttk.Button(self._topFrame, image=self._icon, command=self.openCredits).place(x=300, y=350)
 
