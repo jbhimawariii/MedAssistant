@@ -1,7 +1,5 @@
-# gui version of the assistant
-highly experimental, this will soon be the main branch
-
-probably won't even work 
+# minimal version of the program
+used to be the main branch, same functionality but without the gui
 
 ## Open Source Programs Used
 - [Python 3.7](https://www.python.org/)
