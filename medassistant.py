@@ -210,10 +210,6 @@ class medGui:
         ttk.Button(self._topFrame, text="Refresh", command=self._assistant.refreshIndex).place(x=40, y=200)
         ttk.Button(self._topFrame, text="Manual Input", command=self.textCommand).place(x=60, y=300)
 
-        self._root.bind("<Return>",
-                        lambda event, var=input:
-                            self._assistant.textInput(var))
-
         ttk.Label(self._topFrame, text="Ver 0.9.4", style="normal.TLabel").place(x=240, y=360)
 
         ttk.Button(self._topFrame, image=self._icon, command=self.openCredits).place(x=300, y=350)
