@@ -8,12 +8,9 @@ Codename: PC-98 Reimu
 This program was made for the research title "Raspberry Pi based Virtual Assistant in Helping Doctors in Pulling Patient Profiles" at Pedro Guevara Memorial National Highschool in the section 9-J.BANZON Year 2021-2022
 
 ## Things To Do
-- Program a GUI
-- Profile Entry template
 - Fix Bugs
-- Automation Functions
-- Proper LED Implementation
 - Fix the 500 API call limit
+- Change commands to ones that work for the enclosure setup of the Raspberry Pi
 
 ## Credits
 
