@@ -53,10 +53,13 @@ Step 2: Authorize your kit by following instructions [here](https://aiyprojects.
 
 Step 3: Install the dependencies with `sudo apt-get install python3 zathura libreoffice unoconv`
 
-Step 4: Install your documentations in the profiles directory with the patient name as the filename.
+Step 4: Install the script using `git clone https://github.com/JairusBGit/MedAssistant.git`
+  * Note: The program must be installed in `[home directory]/MedAssistant`
+
+Step 5: Install your documentations in the profiles directory with the patient name as the filename.
   * Note: Adding new patient profiles requires the use of the voice command `OK Google, "Refresh"`
 
-Step 5: Run the Python script and enjoy.
+Step 6: Run the Python script and enjoy.
   * Note: This program only properly runs on Python 3.7 with ***VERSION 1.0 OF THE GOOGLE ASSISTANT API***
   * *our coder has not ported the commands over to the latest version of Python and the Google Assistant API* 
 
