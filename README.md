@@ -13,6 +13,7 @@ This program was made for the research title "Raspberry Pi based Virtual Assista
 - ~~Automation Functions~~
 - ~~Proper LED Implementation~~
 - Fix the 500 API call limit
+- Change commands to ones that work for the enclosure setup of the Raspberry Pi
 
 ## Credits
 
@@ -52,9 +53,9 @@ Step 2: Install the [AIY Voice Kit](https://github.com/google/aiyprojects-raspbi
 Step 3: Authorize your kit by following instructions [here](https://aiyprojects.withgoogle.com/voice/#assembly-guide).
   * Note: The OAuth credentials may expire so if you encounter that bug, run `rm -rf ~/.cache/voice-recognizer` and then re-run the authorization steps.
 
-Step 4: Install the dependencies with `sudo apt-get install python3.7 zathura zathura-pdf-poppler libreoffice unoconv`.
+Step 4: Install the dependencies with `sudo apt-get install python3.7 zathura zathura-pdf-poppler libreoffice unoconv && pip install google-assistant-library==1.0.0`.
 
-Step 5: Place the patient's profiles in the `profiles` folder.
+Step 5: Install your documentations in the profiles directory with the patient name as the filename.
   * Note: Adding new patient profiles requires the use of the voice command `OK Google, "Refresh"`
   * Extra Note: You could also add patient profiles via interacting with the GUI once running the script. By clicking the "+" button you are prompted to open the file of the patient's profile and input the patient's name, there is no need to "refresh" with this method.
 
