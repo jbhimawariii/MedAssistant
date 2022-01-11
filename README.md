@@ -1,19 +1,15 @@
 # MedAssistant
 The scripts used for Jairus' Group research Project.
 
-Version 0.9.4 pre-stable.
+Version 0.9.4 Marisa (GUI Build)
 
 ## Purpose
 This program was made for the research title "Raspberry Pi based Virtual Assistant in Helping Doctors in Pulling Patient Profiles" at Pedro Guevara Memorial National Highschool in the section 9-J.BANZON Year 2021-2022.
 
 ## Things To Do
-- ~~Program a GUI~~
-- ~~Profile Entry template~~
 - Fix Bugs
-- ~~Automation Functions~~
-- ~~Proper LED Implementation~~
-- Fix the 500 API call limit
 - Change commands to ones that work for the enclosure setup of the Raspberry Pi
+- Recode the Google Assistant Library for Python and make an API for Python 3.10
 
 ## Credits
 
