@@ -45,12 +45,15 @@ class medicalAssistant:
                 text = text.replace(" ", "")
 
             for x in array:
+                print(x)
                 if text in x:
                     profile = x
-                else:
-                    tts.say("""profile not in index, have you tried running \"refresh\"
-                            or checking if the filename is correct?""")
-                    return
+
+            if 'profile' in locals():
+                tts.say("""profile not in index, have you tried running
+                        \"refresh\"or checking if the filename is correct?""",
+                        volume=20)
+                return
 
             if profile.endswith(".pdf"):
                 command = "zathura profiles/" + profile
@@ -64,7 +67,8 @@ class medicalAssistant:
 
     def refreshIndex(self):
         # gets a list of all files in a directory, then writes them into a file
-        profiles = [f for f in listdir("profiles/") if isfile(join("profiles/", f))]
+        profiles = [f for f in listdir("profiles/") if isfile(join("profiles/",
+                    f))]
         with open('index', 'w') as file:
             for i in profiles:
                 file.write(i + "\n")
@@ -72,7 +76,7 @@ class medicalAssistant:
         tts.say("refresh finished")
 
     def runTask(self):
-        credentials = auth_helpers.get_assistant_credentials()  # get credentials, self explanatory
+        credentials = auth_helpers.get_assistant_credentials()
         with Assistant(credentials) as assistant:
             self._medAssistant = assistant
             for event in assistant.start():
@@ -82,7 +86,6 @@ class medicalAssistant:
         if self._startConvo:
             self._medAssistant.start_conversation()
 
-    # There's some sort of part here that doesn't work on newer versions of the library, too bad!
     def checkEvent(self, event):
         logging.info(event)
         if event.type == EventType.ON_START_FINISHED:
@@ -115,7 +118,7 @@ class medicalAssistant:
 
         elif text == "shutdown system":
             self._medAssistant.stop_conversation()
-            tts.say("Now Shutting Down")
+            tts.say("Now Shutting Down", volume=60)
             subprocess.run("sudo shutdown now", shell=True)
 
         elif "patient get" in text:
@@ -128,7 +131,7 @@ class medicalAssistant:
         elif text == "goodbye":
             self._medAssistant.stop_conversation()
             self._led.update(Leds.rgb_off())
-            tts.say("Goodbye")
+            tts.say("Goodbye", volume=60)
             sys.exit(0)
 
     def textInput(self, input):
@@ -144,7 +147,8 @@ class medGui:
         self._root.resizable(False, False)
         self._root.configure(background="#141316")
 
-        self._topFrame = ttk.Frame(self._root, padding="20 20 22 22", width=350, height=400)
+        self._topFrame = ttk.Frame(self._root, padding="20 20 22 22",
+                                   width=350, height=400)
         self._topFrame.pack()
         self._topFrame.pack_propagate(False)
         self._topFrame.place(relx=.5, rely=.5, anchor="center")
@@ -156,18 +160,19 @@ class medGui:
 
     def openCredits(self):
         # TODO improvements
-        subprocess.run("chromium https://github.com/JairusBGit/MedAssistant", shell=True)
+        subprocess.run("chromium https://github.com/JairusBGit/MedAssistant",
+                       shell=True)
 
     def addProfile(self):
         filename = filedialog.askopenfilename()
         if filename is None:
             return
-        # did you know that i have spent 3 hours on this thing because of some bug i cant find?
+        # i have spent 3 hours on this thing because of some bug i cant find
         # apparently the fix was removing the window title
         # huh.
         name = sd.askstring("Input Name", "Enter Patient's name")
         if name is None:
-            return  # if no input has been made
+            return
 
         # format name
         name = name.lower()
@@ -189,21 +194,25 @@ class medGui:
         teststyle = ttk.Style()
 
         teststyle.configure("TFrame", background="#1b1c1f")
-        teststyle.configure("TButton", font=("Lato", 18), borderwidth=0, background="#1b1c1f",
+        teststyle.configure("TButton", font=("Lato", 18), borderwidth=0,
+                            background="#1b1c1f",
                             foreground="#c9c2bd", activeforeground="#ffffff",
                             activebackground="#1b1c1f")
         teststyle.configure("TSeparator", background="#ffffff")
-        teststyle.configure("header.TLabel", font=("Lato", 24), background="#1b1c1f",
+        teststyle.configure("header.TLabel", font=("Lato", 24),
+                            background="#1b1c1f",
                             foreground="#c9c2bd")
-        teststyle.configure("normal.TLabel", font=("Lato", 10), background="#1b1c1f",
+        teststyle.configure("normal.TLabel", font=("Lato", 10), 
+                            background="#1b1c1f",
                             foreground="#c9c2bd")
-        teststyle.configure("TEntry", borderwidth=0, fieldbackground="#1b1c1f", foreground="#c9c2bd",
+        teststyle.configure("TEntry", borderwidth=0, fieldbackground="#1b1c1f",
+                            foreground="#c9c2bd",
                             relief="flat", justify="center")
 
     def makeWidgets(self):
-        ttk.Label(self._topFrame, text="MedAssistant", style="header.TLabel").pack(side=tk.TOP,
-                                                                                   anchor=tk.NW)
-        ttk.Separator(self._topFrame, orient=tk.VERTICAL).pack(side=tk.LEFT, fill="y",
+        ttk.Label(self._topFrame, text="MedAssistant", style="header.TLabel").pack(side=tk.TOP, anchor=tk.NW)
+        ttk.Separator(self._topFrame, orient=tk.VERTICAL).pack(side=tk.LEFT,
+                                                               fill="y",
                                                                padx=20)
         ttk.Button(self._topFrame, text="Activate", command=self._assistant.buttonPressed).place(x=40, y=100)
         ttk.Button(self._topFrame, text="+", command=self.addProfile).place(x=120, y=200)
