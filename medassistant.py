@@ -40,19 +40,24 @@ class medicalAssistant:
                 tts.say("syntax error")
                 return
             else:
-                text = text[9:]
+                text = text.replace("get profile for")
                 tts.say("pulling profile for %s" % text)
                 text = text.replace(" ", "")
+
+            print(text)
 
             for x in array:
                 if text in x:
                     profile = x
-                else:
-                    tts.say("""profile not in index, have you tried running \"refresh\"
-                            or checking if the filename is correct?""")
-                    return
 
-            if profile.endswith(".pdf"):
+            print(profile)
+
+            if "profile" not in locals():
+                tts.say("""profile not in index, have you tried running \"refresh\"
+                        or checking if the filename is correct?""")
+                return
+
+            if ".pdf" in profile:
                 command = "zathura profiles/" + profile
                 subprocess.run(command, shell=True)
             else:
@@ -118,7 +123,8 @@ class medicalAssistant:
             tts.say("Now Shutting Down")
             subprocess.run("sudo shutdown now", shell=True)
 
-        elif "patient get" in text:
+        elif "get profile for" in text:
+            self._medAssistant.stop_conversation()
             self.getProfile(text)
 
         elif text == "refresh":
@@ -198,13 +204,11 @@ class medGui:
         teststyle.configure("TEntry", borderwidth=0, fieldbackground="#1b1c1f", foreground="#c9c2bd",
                             relief="flat", justify="center")
 
-    # note to self, avoid writing gui programs
     def makeWidgets(self):
         ttk.Label(self._topFrame, text="MedAssistant", style="header.TLabel").pack(side=tk.TOP,
                                                                                    anchor=tk.NW)
         ttk.Separator(self._topFrame, orient=tk.VERTICAL).pack(side=tk.LEFT, fill="y",
                                                                padx=20)
-        # AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
         ttk.Button(self._topFrame, text="Activate", command=self._assistant.buttonPressed).place(x=40, y=100)
         ttk.Button(self._topFrame, text="+", command=self.addProfile).place(x=120, y=200)
         ttk.Button(self._topFrame, text="Refresh", command=self._assistant.refreshIndex).place(x=40, y=200)
