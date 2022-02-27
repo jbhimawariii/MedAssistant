@@ -40,12 +40,11 @@ class medicalAssistant:
                 tts.say("syntax error")
                 return
             else:
-                text = text[9:]
+                text = text.replace("get profile for")
                 tts.say("pulling profile for %s" % text)
                 text = text.replace(" ", "")
 
             for x in array:
-                print(x)
                 if text in x:
                     profile = x
 
@@ -55,7 +54,12 @@ class medicalAssistant:
                         volume=20)
                 return
 
-            if profile.endswith(".pdf"):
+            if "profile" not in locals():
+                tts.say("""profile not in index, have you tried running \"refresh\"
+                        or checking if the filename is correct?""")
+                return
+
+            if ".pdf" in profile:
                 command = "zathura profiles/" + profile
                 subprocess.run(command, shell=True)
             else:
@@ -121,7 +125,8 @@ class medicalAssistant:
             tts.say("Now Shutting Down", volume=60)
             subprocess.run("sudo shutdown now", shell=True)
 
-        elif "patient get" in text:
+        elif "get profile for" in text:
+            self._medAssistant.stop_conversation()
             self.getProfile(text)
 
         elif text == "refresh":
@@ -219,7 +224,7 @@ class medGui:
         ttk.Button(self._topFrame, text="Refresh", command=self._assistant.refreshIndex).place(x=40, y=200)
         ttk.Button(self._topFrame, text="Manual Input", command=self.textCommand).place(x=60, y=300)
 
-        ttk.Label(self._topFrame, text="Ver 0.9.4", style="normal.TLabel").place(x=240, y=360)
+        ttk.Label(self._topFrame, text="Ver 0.9.5", style="normal.TLabel").place(x=240, y=360)
 
         ttk.Button(self._topFrame, image=self._icon, command=self.openCredits).place(x=300, y=350)
 

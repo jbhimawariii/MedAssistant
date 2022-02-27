@@ -1,7 +1,7 @@
 # MedAssistant
 The scripts used for Jairus' Group research Project.
 
-Version 0.9.4 Marisa (GUI Build)
+Version 0.9.5 Marisa (actually works now)
 
 ## Purpose
 This program was made for the research title "Raspberry Pi based Virtual Assistant in Helping Doctors in Pulling Patient Profiles" at Pedro Guevara Memorial National Highschool in the section 9-J.BANZON Year 2021-2022.
