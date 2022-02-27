@@ -160,12 +160,14 @@ class medGui:
 
     def addProfile(self):
         filename = filedialog.askopenfilename()
-        if filename is None: return
+        if filename is None:
+            return
         # did you know that i have spent 3 hours on this thing because of some bug i cant find?
         # apparently the fix was removing the window title
         # huh.
         name = sd.askstring("Input Name", "Enter Patient's name")
-        if name is None: return  # if no input has been made
+        if name is None:
+            return  # if no input has been made
 
         # format name
         name = name.lower()
@@ -198,13 +200,11 @@ class medGui:
         teststyle.configure("TEntry", borderwidth=0, fieldbackground="#1b1c1f", foreground="#c9c2bd",
                             relief="flat", justify="center")
 
-    # note to self, avoid writing gui programs
     def makeWidgets(self):
         ttk.Label(self._topFrame, text="MedAssistant", style="header.TLabel").pack(side=tk.TOP,
                                                                                    anchor=tk.NW)
         ttk.Separator(self._topFrame, orient=tk.VERTICAL).pack(side=tk.LEFT, fill="y",
                                                                padx=20)
-        # AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
         ttk.Button(self._topFrame, text="Activate", command=self._assistant.buttonPressed).place(x=40, y=100)
         ttk.Button(self._topFrame, text="+", command=self.addProfile).place(x=120, y=200)
         ttk.Button(self._topFrame, text="Refresh", command=self._assistant.refreshIndex).place(x=40, y=200)
