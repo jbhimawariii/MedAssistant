@@ -7,13 +7,11 @@ Version 0.9.5 Marisa (actually works now)
 This program was made for the research title "Raspberry Pi based Virtual Assistant in Helping Doctors in Pulling Patient Profiles" at Pedro Guevara Memorial National Highschool in the section 9-J.BANZON Year 2021-2022.
 
 ## Things To Do
-- Fix Bugs
 - Change commands to ones that work for the enclosure setup of the Raspberry Pi
-- Recode the Google Assistant Library for Python and make an API for Python 3.10
 
 ## Credits
 
-[**Kalinaw Lukas Aom Conde-Bebis / krlm0**](https://github.com/krlm0)
+[**Kalinaw Lukas Aom Conde-Bebis / klnwlks-PGMNHS**](https://github.com/klnwlks-PGMNHS)
  - Lead Programmer
  - Co-Manager
 
