@@ -36,23 +36,17 @@ class medicalAssistant:
         with open('index', 'r') as index:
             array = index.readlines()
 
-            if len(text) < 11:
+            if len(text) < 4:
                 tts.say("syntax error")
                 return
             else:
-                text = text.replace("get profile for")
+                text = text.replace("get", "")
                 tts.say("pulling profile for %s" % text)
                 text = text.replace(" ", "")
 
             for x in array:
                 if text in x:
                     profile = x
-
-            if 'profile' in locals():
-                tts.say("""profile not in index, have you tried running
-                        \"refresh\"or checking if the filename is correct?""",
-                        volume=20)
-                return
 
             if "profile" not in locals():
                 tts.say("""profile not in index, have you tried running \"refresh\"
@@ -125,7 +119,7 @@ class medicalAssistant:
             tts.say("Now Shutting Down", volume=60)
             subprocess.run("sudo shutdown now", shell=True)
 
-        elif "get profile for" in text:
+        elif "get" in text:
             self._medAssistant.stop_conversation()
             self.getProfile(text)
 
